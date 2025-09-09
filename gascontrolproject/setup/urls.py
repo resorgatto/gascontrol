@@ -24,8 +24,8 @@ from gascontrolproject.views import CondominioViewSet, TorresViewSet
 
 # Routers Para Viewset
 router = DefaultRouter()
-router.register=('condominio', CondominioViewSet)
-router.register=('torres', TorresViewSet)
+router.register('condominio', CondominioViewSet)
+router.register('torres', TorresViewSet)
 
 
 urlpatterns = [
