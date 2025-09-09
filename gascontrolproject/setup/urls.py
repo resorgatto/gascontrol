@@ -15,8 +15,24 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+from rest_framework.routers import DefaultRouter
+from gascontrolproject.views import CondominioViewSet, TorresViewSet
+
+
+# Routers Para Viewset
+router = DefaultRouter()
+router.register=('condominio', CondominioViewSet)
+router.register=('torres', TorresViewSet)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include(router.urls)) # Router que eu declarei ali em cima
 ]
+
+
+#se quiser adicionar arquivos de midia futuramente
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
