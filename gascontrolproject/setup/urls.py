@@ -19,13 +19,15 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
-from gascontrolproject.views import CondominioViewSet, TorresViewSet
+from gascontrolproject.views import CondominioViewSet, TorresViewSet, ApartamentoViewSet, PessoaViewSet
 
 
 # Routers Para Viewset
 router = DefaultRouter()
 router.register('condominio', CondominioViewSet)
 router.register('torres', TorresViewSet)
+router.register('apartamento', ApartamentoViewSet)
+router.register('pessoa', PessoaViewSet)
 
 
 urlpatterns = [
