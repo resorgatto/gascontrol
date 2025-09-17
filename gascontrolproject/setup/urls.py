@@ -20,7 +20,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
 from gascontrolproject.views import CondominioViewSet, TorresViewSet, ApartamentoViewSet, PessoaViewSet
-
+from django.views.generic import TemplateView
+from drf_spectacular.views import SpectacularAPIView
 
 # Routers Para Viewset
 router = DefaultRouter()
@@ -30,8 +31,21 @@ router.register('apartamento', ApartamentoViewSet)
 router.register('pessoa', PessoaViewSet)
 
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    
+    path("api/schema/", SpectacularAPIView.as_view(), name="openapi-schema"),
+    
+
+    path(
+        "swagger-ui/",
+        TemplateView.as_view(
+            template_name="swagger-ui.html",
+            extra_context={"schema_url": "openapi-schema"},
+        ),
+        name="swagger-ui",
+    ),    
     path('', include(router.urls)) # Router que eu declarei ali em cima
 ]
 
