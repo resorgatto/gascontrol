@@ -1,8 +1,12 @@
 from django.shortcuts import render
+from rest_framework.response import Response
 from rest_framework import viewsets, filters, status
 from gascontrolproject.models import Condominio, Torres, Apartamento, Pessoa, Hidrometro, Leitura
 from django_filters.rest_framework import DjangoFilterBackend
 from gascontrolproject.serializer import CondominioSerializer, TorresSerializer, ApartamentoSerializer, PessoaSerializer, HidrometroSerializer, LeituraSerializer
+
+
+
 class CondominioViewSet(viewsets.ModelViewSet):
     queryset = Condominio.objects.all().order_by('?')
     serializer_class = CondominioSerializer
@@ -47,5 +51,16 @@ class LeituraViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     ordering_fields = ['hidrometro']
     search_fields = ['hidrometro']
+
+
+    def list(self, request):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        if not queryset.exists():
+            return Response({"mensagem": "Nenhum destino foi encontrado"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+    
     
 

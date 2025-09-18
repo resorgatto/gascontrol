@@ -19,16 +19,19 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
-from gascontrolproject.views import CondominioViewSet, TorresViewSet, ApartamentoViewSet, PessoaViewSet
+from gascontrolproject.views import CondominioViewSet, TorresViewSet, ApartamentoViewSet, PessoaViewSet, HidrometroViewSet, LeituraViewSet
 from django.views.generic import TemplateView
 from drf_spectacular.views import SpectacularAPIView
+from rest_framework import routers
 
 # Routers Para Viewset
-router = DefaultRouter()
+router = routers.DefaultRouter()
 router.register('condominio', CondominioViewSet)
 router.register('torres', TorresViewSet)
 router.register('apartamento', ApartamentoViewSet)
 router.register('pessoa', PessoaViewSet)
+router.register('hidrometro', HidrometroViewSet)
+router.register('leitura', LeituraViewSet)
 
 
 
