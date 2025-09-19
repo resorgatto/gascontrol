@@ -23,7 +23,7 @@ class Apartamento(models.Model):
     torre = models.ForeignKey(Torres, on_delete=models.CASCADE, related_name='apartamentos')
     
     def __str__(self):
-        return (f"Apto {self.numero} - {self.torres.identificacao}")
+        return (f"Apto {self.numero} - {self.torre.identificacao}")
     
 class Pessoa(models.Model):
     TIPO_ESCOLHA=[
@@ -52,6 +52,7 @@ class Leitura(models.Model):
         ('SEMANAL', 'Semanal'),
         ('MENSAL', 'Mensal'),
         ('BIMESTRAL', 'Bimestral'),
+        ('SEMESTRAL', 'Semestral'),
     ]
     
     hidrometro = models.ForeignKey(Hidrometro, on_delete=models.CASCADE, related_name='leituras')
@@ -64,3 +65,24 @@ class Leitura(models.Model):
     
     def __str__(self):
         return f"Leitura {self.hidrometro.codigo} - {self.data_leitura}"
+    
+
+class Relatorio(models.Model):
+    TIPO_RELATORIO_CHOICES = [
+        ('APARTAMENTO', 'Apartamento'),
+        ('TORRE', 'Torre'),
+        ('CONDOMINIO', 'Condomínio'),
+    ]
+    
+    tipo = models.CharField(max_length=20, choices=TIPO_RELATORIO_CHOICES)
+    referencia_id = models.IntegerField()  # ID do apto, torre ou condomínio
+    data_inicio = models.DateField()
+    data_fim = models.DateField()
+    total_consumo = models.DecimalField(max_digits=10, decimal_places=2)
+    data_geracao = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['-data_geracao']
+    
+    def __str__(self):
+        return f"Relatório {self.get_tipo_display()} - {self.data_inicio} a {self.data_fim}"

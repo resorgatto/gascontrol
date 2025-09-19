@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'gascontrolproject',
     'rest_framework',
     'django_filters',
+    'corsheaders',
     
 ]
 
@@ -52,6 +53,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'setup.urls'
@@ -132,10 +135,21 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
-    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
-    'DEFAULT_AUTHENTICATION_CLASSES': [
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'], #IMPORTANDO FILTRO PARA API
+
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema", # IMPORTANDO PARA O SWAGGER
+
+    'DEFAULT_AUTHENTICATION_CLASSES': [ #AUTENTICAÇÃO PARA O SWAGGER
         'rest_framework.authentication.BasicAuthentication',
         # pode manter também outras, ex: SessionAuthentication
     ],
 }
+
+# Permitir todas as origens (apenas para desenvolvimento)
+CORS_ALLOW_ALL_ORIGINS = False
+
+# Ou permitir origens específicas (recomendado para produção)
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+]

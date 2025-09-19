@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from gascontrolproject.models import Condominio, Torres, Apartamento, Pessoa, Hidrometro, Leitura
+from gascontrolproject.models import Condominio, Torres, Apartamento, Pessoa, Hidrometro, Leitura, Relatorio
 
 class CondominioSerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,9 +22,15 @@ class PessoaSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
 class HidrometroSerializer(serializers.ModelSerializer):
+    # Adicionar campos de leitura para mostrar número do apartamento
+    apartamento_info = serializers.SerializerMethodField(read_only=True)
+    
     class Meta:
         model = Hidrometro
-        fields = '__all__'
+        fields = ['id', 'codigo', 'apartamento', 'apartamento_info']
+    
+    def get_apartamento_info(self, obj):
+        return f"Apto {obj.apartamento.numero} - {obj.apartamento.torre.identificacao}"
 
 class LeituraSerializer(serializers.ModelSerializer):
     class Meta:
@@ -39,4 +45,10 @@ class LeituraDetailSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Leitura
+        fields = '__all__'
+
+
+class RelatorioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Relatorio
         fields = '__all__'
