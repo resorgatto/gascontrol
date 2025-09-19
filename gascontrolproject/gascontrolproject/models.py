@@ -40,12 +40,12 @@ class Pessoa(models.Model):
         return (f"{self.nome} ({self.get_tipo_display()})")
     
 
-class Hidrometro(models.Model):
+class Gasometro(models.Model):
     codigo = models.CharField(max_length=50, unique=True)
-    apartamento = models.OneToOneField(Apartamento, on_delete=models.CASCADE, related_name='hidrometro')
+    apartamento = models.OneToOneField(Apartamento, on_delete=models.CASCADE, related_name='gasometro')
     
     def __str__(self):
-        return f"Hidrômetro {self.codigo} - Apto {self.apartamento.numero}"
+        return f"Gasômetro {self.codigo} - Apto {self.apartamento.numero}"
     
 class Leitura(models.Model):
     PERIODICIDADE_CHOICES = [
@@ -55,16 +55,16 @@ class Leitura(models.Model):
         ('SEMESTRAL', 'Semestral'),
     ]
     
-    hidrometro = models.ForeignKey(Hidrometro, on_delete=models.CASCADE, related_name='leituras')
+    gasometro = models.ForeignKey(Gasometro, on_delete=models.CASCADE, related_name='leituras')
     data_leitura = models.DateField()
     consumo_m3 = models.DecimalField(max_digits=10, decimal_places=2)
     periodicidade = models.CharField(max_length=10, choices=PERIODICIDADE_CHOICES, default='MENSAL')
     
     class Meta:
-        unique_together = ['hidrometro', 'data_leitura']
+        unique_together = ['gasometro', 'data_leitura']
     
     def __str__(self):
-        return f"Leitura {self.hidrometro.codigo} - {self.data_leitura}"
+        return f"Leitura {self.gasometro.codigo} - {self.data_leitura}"
     
 
 class Relatorio(models.Model):

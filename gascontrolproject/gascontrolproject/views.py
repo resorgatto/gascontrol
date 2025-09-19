@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework import viewsets, filters, status
-from gascontrolproject.models import Condominio, Torres, Apartamento, Pessoa, Hidrometro, Leitura, Relatorio
+from gascontrolproject.models import Condominio, Torres, Apartamento, Pessoa, Gasometro, Leitura, Relatorio
 from django_filters.rest_framework import DjangoFilterBackend
-from gascontrolproject.serializer import CondominioSerializer, TorresSerializer, ApartamentoSerializer, PessoaSerializer, HidrometroSerializer, LeituraSerializer, RelatorioSerializer
+from gascontrolproject.serializer import CondominioSerializer, TorresSerializer, ApartamentoSerializer, PessoaSerializer, GasometroSerializer, LeituraSerializer, RelatorioSerializer
 from django.db.models import Sum, Q
 from rest_framework.decorators import action
 from django.shortcuts import render
@@ -47,9 +47,9 @@ class PessoaViewSet(viewsets.ModelViewSet):
     ordering_fields = ['nome']
     search_fields = ['nome', 'tipo']
 
-class HidrometroViewSet(viewsets.ModelViewSet):
-    queryset =  Hidrometro.objects.all().order_by('?')
-    serializer_class = HidrometroSerializer
+class GasometroViewSet(viewsets.ModelViewSet):
+    queryset =  Gasometro.objects.all().order_by('?')
+    serializer_class = GasometroSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     ordering_fields = ['apartamento']
     search_fields = ['codigo', 'apartamento']
@@ -58,8 +58,8 @@ class LeituraViewSet(viewsets.ModelViewSet):
     queryset = Leitura.objects.all().order_by('?')
     serializer_class = LeituraSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
-    ordering_fields = ['hidrometro']
-    search_fields = ['hidrometro']
+    ordering_fields = ['gasometro']
+    search_fields = ['gasometro']
 
 
     def list(self, request): # TRATANDO ERROS
@@ -88,7 +88,7 @@ class RelatorioViewSet(viewsets.ModelViewSet):
             return Response({'error': 'Todos os parâmetros são obrigatórios'}, status=400)
 
         consumo = Leitura.objects.filter(
-            hidrometro__apartamento_id=apartamento_id,
+            gasometro__apartamento_id=apartamento_id,
             data_leitura__range=[data_inicio, data_fim]
         ).aggregate(total_consumo=Sum('consumo_m3'))
         
@@ -108,7 +108,7 @@ class RelatorioViewSet(viewsets.ModelViewSet):
             return Response({'error': 'Todos os parâmetros são obrigatórios'}, status=400)
         
         consumo = Leitura.objects.filter(
-            hidrometro__apartamento__torre_id=torre_id,
+            gasometro__apartamento__torre_id=torre_id,
             data_leitura__range=[data_inicio, data_fim]
         ).aggregate(total_consumo=Sum('consumo_m3'))
         
@@ -128,7 +128,7 @@ class RelatorioViewSet(viewsets.ModelViewSet):
             return Response({'error': 'Todos os parâmetros são obrigatórios'}, status=400)
         
         consumo = Leitura.objects.filter(
-            hidrometro__apartamento__torre__condominio_id=condominio_id,
+            gasometro__apartamento__torre__condominio_id=condominio_id,
             data_leitura__range=[data_inicio, data_fim]
         ).aggregate(total_consumo=Sum('consumo_m3')) 
         

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Condominio, Torres, Apartamento, Pessoa, Hidrometro, Leitura
+from .models import Condominio, Torres, Apartamento, Pessoa, Gasometro, Leitura
 
 class Condominios(admin.ModelAdmin):
     list_display = ('nome', 'local',)
@@ -48,7 +48,7 @@ class Pessoas(admin.ModelAdmin):
         return obj.apartamento.torre.condominio.nome
     condominio_nome.short_description = 'Condomínio'
 
-class Hidrometros(admin.ModelAdmin):
+class Gasometros(admin.ModelAdmin):
     list_display = ('codigo', 'apartamento_numero', 'torre_identificacao', 'condominio_nome',)
     list_display_links = ('codigo',)
     search_fields = ('codigo', 'apartamento__numero',)
@@ -68,23 +68,23 @@ class Hidrometros(admin.ModelAdmin):
     condominio_nome.short_description = 'Condomínio'
 
 class Leituras(admin.ModelAdmin):
-    list_display = ('hidrometro_codigo', 'data_leitura', 'consumo_m3', 'periodicidade', 'apartamento_numero', 'condominio_nome',)
-    list_display_links = ('hidrometro_codigo',)
-    search_fields = ('hidrometro__codigo', 'hidrometro__apartamento__numero',)
-    list_filter = ('data_leitura', 'periodicidade', 'hidrometro__apartamento__torre__condominio',)
+    list_display = ('gasometro_codigo', 'data_leitura', 'consumo_m3', 'periodicidade', 'apartamento_numero', 'condominio_nome',)
+    list_display_links = ('gasometro_codigo',)
+    search_fields = ('gasometro__codigo', 'gasometro__apartamento__numero',)
+    list_filter = ('data_leitura', 'periodicidade', 'gasometro__apartamento__torre__condominio',)
     list_per_page = 20
     ordering = ('-data_leitura',)
     
-    def hidrometro_codigo(self, obj):
-        return obj.hidrometro.codigo
-    hidrometro_codigo.short_description = 'Hidrômetro'
+    def gasometro_codigo(self, obj):
+        return obj.gasometro.codigo
+    gasometro_codigo.short_description = 'Gasômetro'
     
     def apartamento_numero(self, obj):
-        return obj.hidrometro.apartamento.numero
+        return obj.gasometro.apartamento.numero
     apartamento_numero.short_description = 'Apartamento'
     
     def condominio_nome(self, obj):
-        return obj.hidrometro.apartamento.torre.condominio.nome
+        return obj.gasometro.apartamento.torre.condominio.nome
     condominio_nome.short_description = 'Condomínio'
 
 # Registro dos modelos
@@ -92,5 +92,5 @@ admin.site.register(Condominio, Condominios)
 admin.site.register(Torres, TorresAdmin)
 admin.site.register(Apartamento, Apartamentos)
 admin.site.register(Pessoa, Pessoas)
-admin.site.register(Hidrometro, Hidrometros)
+admin.site.register(Gasometro, Gasometros)
 admin.site.register(Leitura, Leituras)

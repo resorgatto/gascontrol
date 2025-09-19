@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from gascontrolproject.models import Condominio, Torres, Apartamento, Pessoa, Hidrometro, Leitura, Relatorio
+from gascontrolproject.models import Condominio, Torres, Apartamento, Pessoa, Gasometro, Leitura, Relatorio
 
 class CondominioSerializer(serializers.ModelSerializer):
     class Meta:
@@ -21,12 +21,12 @@ class PessoaSerializer(serializers.ModelSerializer):
         model = Pessoa
         fields = '__all__'
         
-class HidrometroSerializer(serializers.ModelSerializer):
+class GasometroSerializer(serializers.ModelSerializer):
     # Adicionar campos de leitura para mostrar número do apartamento
     apartamento_info = serializers.SerializerMethodField(read_only=True)
     
     class Meta:
-        model = Hidrometro
+        model = Gasometro
         fields = ['id', 'codigo', 'apartamento', 'apartamento_info']
     
     def get_apartamento_info(self, obj):
@@ -38,10 +38,10 @@ class LeituraSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
 class LeituraDetailSerializer(serializers.ModelSerializer):
-    hidrometro = HidrometroSerializer(read_only=True)
-    apartamento = serializers.CharField(source='hidrometro.apartamento.numero', read_only=True)
-    torre = serializers.CharField(source='hidrometro.apartamento.torre.identificacao', read_only=True)
-    condominio = serializers.CharField(source='hidrometro.apartamento.torre.condominio.nome', read_only=True)
+    gasometro = GasometroSerializer(read_only=True)
+    apartamento = serializers.CharField(source='gasometro.apartamento.numero', read_only=True)
+    torre = serializers.CharField(source='gasometro.apartamento.torre.identificacao', read_only=True)
+    condominio = serializers.CharField(source='gasometro.apartamento.torre.condominio.nome', read_only=True)
     
     class Meta:
         model = Leitura

@@ -5,7 +5,7 @@ Sistema Django para gestão de consumo de gás em condomínios com PostgreSQL.
 ## 🚀 Funcionalidades
 
 - ✅ Cadastro de condomínios, torres e apartamentos
-- ✅ Controle de moradores e hidrômetros  
+- ✅ Controle de moradores e s  
 - ✅ Registro de leituras de consumo
 - ✅ Relatórios por período
 - ✅ Interface admin completa
@@ -54,7 +54,7 @@ docker-compose up --build
 
 ### 4. Acesse as interfaces
 - **🌐 Interface Web:** http://localhost:8000/leitura/registro/
-- **📖 Swagger API Docs:** http://localhost:8000/swagger-ui/
+- **📖 Swagger API Docs:** http://localhost:8000/api/doc/
 - **🔌 API REST:** http://localhost:8000/
 - **⚙️ Admin Django:** http://localhost:8000/admin/
 
@@ -86,9 +86,9 @@ python manage.py runserver
 - `GET    /api/apartamentos/` - Lista apartamentos
 - `POST   /api/apartamentos/` - Cria apartamento
 
-### 🔹 Hidrômetros
-- `GET    /api/hidrometros/` - Lista hidrômetros
-- `POST   /api/hidrometros/` - Cria hidrômetro
+### 🔹 Gasoômetros
+- `GET    /api/gasometros/` - Lista gasômetros
+- `POST   /api/gasometros/` - Cria gasômetro
 
 ### 🔹 Leituras
 - `GET    /api/leituras/` - Lista leituras
@@ -102,9 +102,9 @@ python manage.py runserver
 ## 🌐 Interface Web
 
 ### Página de Registro de Leituras
-- **URL:** http://localhost:8000/leitura/registro/
+- **URL:** http://localhost:8000/leituras/registro/
 - **Funcionalidades:**
-  - ✅ Seleção de hidrômetros
+  - ✅ Seleção de gasômetros
   - ✅ Registro de data e consumo
   - ✅ Seleção de periodicidade
   - ✅ Validação em tempo real
@@ -154,14 +154,14 @@ docker-compose exec web python manage.py createsuperuser
 
 ### 2. Acessar admin
 - URL: http://localhost:8000/admin/
-- Cadastrar: Condomínios, Torres, Apartamentos, Hidrômetros
+- Cadastrar: Condomínios, Torres, Apartamentos, Gasômetros
 
 ### 3. Usar interface web
-- Acessar: http://localhost:8000/leitura/registro/
+- Acessar: http://localhost:8000/leituras/registro/
 - Registrar primeiras leituras
 
 ### 4. Explorar API
-- Documentação: http://localhost:8000/swagger-ui/
+- Documentação: http://localhost:8000/api/doc/
 - Testar endpoints diretamente
 
 

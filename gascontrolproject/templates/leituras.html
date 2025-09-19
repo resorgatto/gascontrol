@@ -187,9 +187,9 @@
             
             <form id="leituraForm">
                 <div class="form-group">
-                    <label for="hidrometro"><i class="fas fa-water"></i> Hidrômetro:</label>
-                    <select id="hidrometro" class="form-control" required>
-                        <option value="">Carregando hidrômetros...</option>
+                    <label for="gasometro"><i class="fas fa-water"></i> Gasômetro:</label>
+                    <select id="gasometro" class="form-control" required>
+                        <option value="">Carregando gasômetros...</option>
                     </select>
                 </div>
                 
@@ -228,17 +228,17 @@
 
     <script>
         // URLs da API - Altere conforme sua configuração
-        const API_BASE_URL = 'http://localhost:8000';  // URL do seu backend Django
-        const HIDROMETROS_API_URL = `${API_BASE_URL}/hidrometro/`;
-        const LEITURAS_API_URL = `${API_BASE_URL}/leitura/`;
-        const APARTAMENTO_API_URL = `${API_BASE_URL}/apartamento/`;
+        const API_BASE_URL = 'http://localhost:8000/api';  // URL do seu backend Django
+        const GASOMETROS_API_URL = `${API_BASE_URL}/gasometros/`;
+        const LEITURAS_API_URL = `${API_BASE_URL}/leituras/`;
+        const APARTAMENTO_API_URL = `${API_BASE_URL}/apartamentos/`;
     
         // Cache para armazenar dados dos apartamentos
         const apartamentosCache = new Map();
 
         // Elementos do DOM
         const messageDiv = document.getElementById('message');
-        const hidrometroSelect = document.getElementById('hidrometro');
+        const gasometroSelect = document.getElementById('gasometro');
         const leituraForm = document.getElementById('leituraForm');
         const loadingDiv = document.getElementById('loading');
 
@@ -254,44 +254,44 @@
             }, 5000);
         }
 
-    // Função para carregar hidrômetros da API
-    async function carregarHidrometros() {
+    // Função para carregar gasômetros da API
+    async function carregarGasometros() {
         try {
-            const response = await fetch(HIDROMETROS_API_URL);
+            const response = await fetch(GASOMETROS_API_URL);
             
             if (!response.ok) {
                 throw new Error(`Erro HTTP: ${response.status}`);
             }
             
-            const hidrometros = await response.json();
+            const gasometros = await response.json();
             
             // Limpar select
-            hidrometroSelect.innerHTML = '<option value="">Selecione o hidrômetro</option>';
+            gasometroSelect.innerHTML = '<option value="">Selecione o gasômetro</option>';
             
-            // Preencher com os hidrômetros da API
-            hidrometros.forEach(hidrometro => {
+            // Preencher com os gasômetros da API
+            gasometros.forEach(gasometro => {
                 const option = document.createElement('option');
-                option.value = hidrometro.id;
+                option.value = gasometro.id;
                 
-                // Dentro do loop de hidrômetros
-                if (hidrometro.apartamento_info) {
+                // Dentro do loop de gasômetro
+                if (gasometro.apartamento_info) {
                     // Usar a informação formatada do serializer
-                    option.textContent = `${hidrometro.codigo} - ${hidrometro.apartamento_info}`;
-                } else if (hidrometro.apartamento) {
+                    option.textContent = `${gasometro.codigo} - ${gasometro.apartamento_info}`;
+                } else if (gasometro.apartamento) {
                     // Fallback para busca individual
-                    option.textContent = `${hidrometro.codigo} - Apto ${hidrometro.apartamento_numero || hidrometro.apartamento}`;
+                    option.textContent = `${gasometro.codigo} - Apto ${gasometro.apartamento_numero || gasometro.apartamento}`;
                 } else {
                     // Caso não tenha informação de apartamento
-                    option.textContent = `${hidrometro.codigo}`;
+                    option.textContent = `${gasometro.codigo}`;
                 }
                 
-                hidrometroSelect.appendChild(option);
+                gasometroSelect.appendChild(option);
             });
             
         } catch (error) {
-            console.error('Erro ao carregar hidrômetros:', error);
-            hidrometroSelect.innerHTML = '<option value="">Erro ao carregar hidrômetros</option>';
-            showMessage('Erro ao carregar a lista de hidrômetros.', 'error');
+            console.error('Erro ao carregar gasômetros:', error);
+            gasometroSelect.innerHTML = '<option value="">Erro ao carregar gasômetros</option>';
+            showMessage('Erro ao carregar a lista de gasômetros.', 'error');
         }
     }
 
@@ -350,15 +350,15 @@
             e.preventDefault();
             
             const leitura = {
-                hidrometro: document.getElementById('hidrometro').value,
+                gasometro: document.getElementById('gasometro').value,
                 data_leitura: document.getElementById('data_leitura').value,
                 consumo_m3: parseFloat(document.getElementById('consumo_m3').value),
                 periodicidade: document.getElementById('periodicidade').value
             };
             
             // Validação
-            if (!leitura.hidrometro) {
-                showMessage('Por favor, selecione um hidrômetro.', 'error');
+            if (!leitura.gasometro) {
+                showMessage('Por favor, selecione um gasômetro.', 'error');
                 return;
             }
             
@@ -381,7 +381,7 @@
 
         // Inicializar a página
         document.addEventListener('DOMContentLoaded', function() {
-            carregarHidrometros();
+            carregarGasometros();
             
             // Definir data atual como padrão
             const today = new Date().toISOString().split('T')[0];

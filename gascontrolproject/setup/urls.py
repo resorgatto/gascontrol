@@ -19,7 +19,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
-from gascontrolproject.views import CondominioViewSet, TorresViewSet, ApartamentoViewSet, PessoaViewSet, HidrometroViewSet, LeituraViewSet, RelatorioViewSet
+from gascontrolproject.views import CondominioViewSet, TorresViewSet, ApartamentoViewSet, PessoaViewSet, GasometroViewSet, LeituraViewSet, RelatorioViewSet
 from gascontrolproject import views
 from django.views.generic import TemplateView
 from drf_spectacular.views import SpectacularAPIView
@@ -27,13 +27,13 @@ from rest_framework import routers
 
 # Routers Para Viewset
 router = routers.DefaultRouter()
-router.register('condominio', CondominioViewSet)
-router.register('torres', TorresViewSet)
-router.register('apartamento', ApartamentoViewSet)
-router.register('pessoa', PessoaViewSet)
-router.register('hidrometro', HidrometroViewSet)
-router.register('leitura', LeituraViewSet)
-router.register('relatorio', RelatorioViewSet)
+router.register('api/condominios', CondominioViewSet)
+router.register('api/torres', TorresViewSet)
+router.register('api/apartamentos', ApartamentoViewSet)
+router.register('api/pessoas', PessoaViewSet)
+router.register('api/gasometros', GasometroViewSet)
+router.register('api/leituras', LeituraViewSet)
+router.register('api/relatorios', RelatorioViewSet)
 
 
 urlpatterns = [
@@ -41,10 +41,10 @@ urlpatterns = [
     
     path("api/schema/", SpectacularAPIView.as_view(), name="openapi-schema"),
     
-    path('leitura/registro/', views.registro_leituras_view, name='leituras'),
+    path('leituras/registro/', views.registro_leituras_view, name='leituras'),
 
     path(
-        "swagger-ui/",
+        "api/doc/",
         TemplateView.as_view(
             template_name="swagger-ui.html",
             extra_context={"schema_url": "openapi-schema"},

@@ -12,11 +12,11 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Hidrometro',
+            name='Gasometro',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('codigo', models.CharField(max_length=50, unique=True)),
-                ('apartamento', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='hidrometro', to='gascontrolproject.apartamento')),
+                ('apartamento', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='gasometro', to='gascontrolproject.apartamento')),
             ],
         ),
         migrations.CreateModel(
@@ -26,10 +26,10 @@ class Migration(migrations.Migration):
                 ('data_leitura', models.DateField()),
                 ('consumo_m3', models.DecimalField(decimal_places=2, max_digits=10)),
                 ('periodicidade', models.CharField(choices=[('SEMANAL', 'Semanal'), ('MENSAL', 'Mensal'), ('BIMESTRAL', 'Bimestral')], default='MENSAL', max_length=10)),
-                ('hidrometro', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='leituras', to='gascontrolproject.hidrometro')),
+                ('gasometro', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='leituras', to='gascontrolproject.gasometro')),
             ],
             options={
-                'unique_together': {('hidrometro', 'data_leitura')},
+                'unique_together': {('gasometro', 'data_leitura')},
             },
         ),
     ]
