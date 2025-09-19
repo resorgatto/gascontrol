@@ -53,9 +53,9 @@ docker-compose up --build
 ```
 
 ### 4. Acesse as interfaces
-- **🌐 Interface Web:** http://localhost:8000/registro-leituras/
-- **📖 Swagger API Docs:** http://localhost:8000/api/docs/
-- **🔌 API REST:** http://localhost:8000/api/
+- **🌐 Interface Web:** http://localhost:8000/leitura/registro/
+- **📖 Swagger API Docs:** http://localhost:8000/swagger-ui/
+- **🔌 API REST:** http://localhost:8000/
 - **⚙️ Admin Django:** http://localhost:8000/admin/
 
 ## 🖥️ Execução Tradicional (venv)
