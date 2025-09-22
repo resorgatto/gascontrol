@@ -86,7 +86,7 @@ python manage.py runserver
 - `GET    /api/apartamentos/` - Lista apartamentos
 - `POST   /api/apartamentos/` - Cria apartamento
 
-### 🔹 Gasoômetros
+### 🔹 Gasômetros
 - `GET    /api/gasometros/` - Lista gasômetros
 - `POST   /api/gasometros/` - Cria gasômetro
 
