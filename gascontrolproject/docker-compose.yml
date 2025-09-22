@@ -6,7 +6,7 @@ services:
       sh -c "sleep 5 &&
             python manage.py migrate --noinput &&
             python manage.py collectstatic --noinput &&
-            gunicorn setup.wsgi:application --bind 0.0.0.0:8000 --workers 3"
+            gunicorn setup.wsgi:application --bin 0.0.0.0:8000 --workers 3"
     volumes:
       - .:/gascontrolproject
       - static_volume:/gascontrolproject/staticfiles

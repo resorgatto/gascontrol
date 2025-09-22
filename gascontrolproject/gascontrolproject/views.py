@@ -51,15 +51,15 @@ class GasometroViewSet(viewsets.ModelViewSet):
     queryset =  Gasometro.objects.all().order_by('?')
     serializer_class = GasometroSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
-    ordering_fields = ['apartamento']
-    search_fields = ['codigo', 'apartamento']
+    ordering_fields = ['apartamentos']
+    search_fields = ['codigo', 'apartamentos']
 
 class LeituraViewSet(viewsets.ModelViewSet):
     queryset = Leitura.objects.all().order_by('?')
     serializer_class = LeituraSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
-    ordering_fields = ['gasometro']
-    search_fields = ['gasometro']
+    ordering_fields = ['gasometros']
+    search_fields = ['gasometros']
 
 
     def list(self, request): # TRATANDO ERROS
